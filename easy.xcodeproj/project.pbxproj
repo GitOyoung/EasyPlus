@@ -25,9 +25,9 @@
 
 /* Begin PBXFileReference section */
 		E3B7AF411D5AF9D0001E9198 /* easy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = easy; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3B7AF441D5AF9D1001E9198 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		E3B7AF4B1D5AFA51001E9198 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = easy/base/base.cpp; sourceTree = "<group>"; };
-		E3B7AF4C1D5AFA51001E9198 /* base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = base.hpp; path = easy/base/base.hpp; sourceTree = "<group>"; };
+		E3B7AF441D5AF9D1001E9198 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = easy/main.cpp; sourceTree = "<group>"; };
+		E3B7AF4B1D5AFA51001E9198 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = base/base.cpp; sourceTree = "<group>"; };
+		E3B7AF4C1D5AFA51001E9198 /* base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = base.hpp; path = base/base.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,8 +44,7 @@
 		E3B7AF381D5AF9D0001E9198 = {
 			isa = PBXGroup;
 			children = (
-				E3B7AF4B1D5AFA51001E9198 /* base.cpp */,
-				E3B7AF4C1D5AFA51001E9198 /* base.hpp */,
+				E3B7AF441D5AF9D1001E9198 /* main.cpp */,
 				E3B7AF431D5AF9D0001E9198 /* easy */,
 				E3B7AF421D5AF9D0001E9198 /* Products */,
 			);
@@ -62,7 +61,8 @@
 		E3B7AF431D5AF9D0001E9198 /* easy */ = {
 			isa = PBXGroup;
 			children = (
-				E3B7AF441D5AF9D1001E9198 /* main.cpp */,
+				E3B7AF4B1D5AFA51001E9198 /* base.cpp */,
+				E3B7AF4C1D5AFA51001E9198 /* base.hpp */,
 			);
 			path = easy;
 			sourceTree = "<group>";
@@ -245,6 +245,7 @@
 				E3B7AF4A1D5AF9D1001E9198 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -135,7 +135,7 @@ namespace easy {
     }
     
     String &String::operator+=(const easy::base::String &other) {
-        *this = *this + other;
+        if(other.length() > 0)*this = *this + other;
         return *this;
     }
     

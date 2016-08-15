@@ -27,6 +27,7 @@ int main(int argc, const char * argv[]) {
     ss = ss - 8;
     std::cout<<ss<<std::endl;
     ss -=3;
+    ss += "hah";
     std::cout<<ss<<std::endl;
     return 0;
 }
