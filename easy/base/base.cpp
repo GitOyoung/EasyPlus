@@ -111,6 +111,7 @@ namespace easy {
         StringStruct &operator=(const char *);
         StringStruct &operator=(const StringStruct &);
         StringStruct &operator+(const StringStruct &);
+        StringStruct &operator+=(const StringStruct &);
         char *data() const {
             return data_;
         }
@@ -184,7 +185,7 @@ namespace easy {
     }
     
     String &String::operator+=(const easy::base::String &other) {
-        if(other.length() > 0)*this = *this + other;
+        *priv_ += *other.priv_;
         return *this;
     }
     
@@ -233,17 +234,17 @@ namespace easy {
     
     String::StringStruct::StringStruct(const char *str, size_t length): length_(length), size_(length + 1) {
         if(str != 0) {
-            data_ = new char[length_ + 1];
+            data_ = new char[size_];
         } else {
             length_ = 0;
-            data_ = new char[1];
+            data_ = new char[size_];
         }
         memcpy(data_, str, length_);
     }
     
     String::StringStruct::StringStruct(char *str, int length): length_(length), size_(length + 1), data_(str) {}
     
-    String::StringStruct::StringStruct(const StringStruct &other): length_(other.length_), data_(new char[length_ + 1]) {
+    String::StringStruct::StringStruct(const StringStruct &other): length_(other.length_), size_(other.length_ + 1), data_(new char[length_ + 1]) {
         memcpy(data_, other.data_, length_);
     }
     
@@ -323,6 +324,19 @@ namespace easy {
         return *new StringStruct(data, (int)length);
     }
     
+     String::StringStruct& String::StringStruct::operator+=(const easy::base::String::StringStruct &other) {
+         size_t length = length_ + other.length_;
+         if(size_ < length + 1) {
+             size_ = length + 1;
+             char *str = new char[size_];
+             memcpy(str, data_, length_);
+             delete [] data_;
+             data_ = str;
+         }
+         memcpy(data_ + length_, other.data_, other.length_);
+         length_ = length;
+         return *this;
+     }
     
     
 }

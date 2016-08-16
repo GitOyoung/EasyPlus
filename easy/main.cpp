@@ -17,10 +17,8 @@ int main(int argc, const char * argv[]) {
     struct timeval begin, end;
     
     gettimeofday(&begin, 0);
-    String as("1234567890");
-    String bs("9876543210");
-    String cs("abcdefghijk");
-    std::cout<<as + bs + cs + "ABCDEFG"<<std::endl;
+
+    
     gettimeofday(&end, 0);
     std::cout<<"used: "<<end.tv_usec - begin.tv_usec<<std::endl;
 
