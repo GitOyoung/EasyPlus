@@ -34,6 +34,46 @@ namespace easy {
         return *this;
     }
     
+    Int &Int::repeat(callBack cb) {
+        int index = 0;
+        while(index < *this && cb(index++));
+        return *this;
+    }
+    
+    Int Int::fromChar(char c) {
+        return  Int((int)c);
+    }
+    
+    Int Int::fromShort(short s) {
+        return Int((int)s);
+    }
+    
+    Int Int::fromString(const char *str) {
+        int value = 0;
+        Int len((int)strlen(str));
+        len.repeat([&](int i) -> bool {
+            if(str[i] >= '0' && str[i] <= '9') {
+                value = value * 10 + str[i] - '0';
+                return true;
+            }
+            return false;
+        });
+        return Int(value);
+    }
+    
+    Int Int::fromString(const easy::base::String &str) {
+        Int length(str.length());
+        int value = 0;
+        length.repeat([&](int i)-> bool {
+            if(str[i] >= '0' && str[i] <= '9') {
+                value = value * 10 + str[i] - '0';
+                return true;
+            }
+                return false;
+        });
+        return Int(value);
+    }
+    
     Int32& Int32::operator=(const easy::Int32 &other) {
         BaseType<signed long>::operator=(other);
         return *this;
@@ -71,9 +111,12 @@ namespace easy {
         StringStruct &operator=(const char *);
         StringStruct &operator=(const StringStruct &);
         StringStruct &operator+(const StringStruct &);
-  
+        char *data() const {
+            return data_;
+        }
     private:
         size_t length_;
+        size_t size_;
         char *data_;
     };
 
@@ -86,7 +129,7 @@ namespace easy {
         std::cout<<"析够次数+1"<<std::endl;
     }
 #endif
-
+    String::String(char *data, int length): priv_(new StringStruct(data, length)) {}
     String::String(const char *str): priv_(new StringStruct(str, strlen(str))) {}
     String::String(const String &other): priv_(new StringStruct(*other.priv_)) {}
     
@@ -123,6 +166,12 @@ namespace easy {
         return *this;
     }
     
+    char &String::operator[](int i) {
+        char *p = priv_->data();
+        return *(p + i);
+    }
+    
+    
     String String::subString(int index, int length) {
         const char *str =  (const char *)*priv_ + index;
         if(index < 0) str += this->length();
@@ -154,6 +203,20 @@ namespace easy {
         return *this;
     }
     
+    String String::fromNumber(long long ll) {
+        char str[20];
+        sprintf(str, "%lld", ll);
+        return String(str);
+    }
+    
+    String String::fromNumber(double db, int pre) {
+        char str[32];
+        char fmt[8];
+        sprintf(fmt, "%%.%df", pre);
+        sprintf(str, fmt, db);
+        return String(str);
+    }
+    
     String::~String() {
         
         
@@ -162,12 +225,13 @@ namespace easy {
             std::cout<<"String: "<<*this<<" 释放次数+1"<<std::endl;
 #endif
             delete priv_;
+            priv_ = 0;
         }
-        priv_ = 0;
+        
     }
     
     
-    String::StringStruct::StringStruct(const char *str, size_t length): length_(length) {
+    String::StringStruct::StringStruct(const char *str, size_t length): length_(length), size_(length + 1) {
         if(str != 0) {
             data_ = new char[length_ + 1];
         } else {
@@ -177,7 +241,7 @@ namespace easy {
         memcpy(data_, str, length_);
     }
     
-    String::StringStruct::StringStruct(char *str, int length): length_(length), data_(str) {}
+    String::StringStruct::StringStruct(char *str, int length): length_(length), size_(length + 1), data_(str) {}
     
     String::StringStruct::StringStruct(const StringStruct &other): length_(other.length_), data_(new char[length_ + 1]) {
         memcpy(data_, other.data_, length_);
@@ -225,9 +289,14 @@ namespace easy {
     
     String::StringStruct & String::StringStruct::operator=(const char *str) {
         if(str != data_) {
-            delete[] data_;
-            length_ = strlen(str);
-            data_ = new char[length_ + 1];
+            size_t strLen = strlen(str);
+            if(size_ < strLen + 1) {
+                delete[] data_;
+                size_ = strLen + 1;
+                data_ = new char[size_];
+            }
+            length_ = strLen;
+            
             memcpy(data_, str, length_);
         }
         return *this;
@@ -235,9 +304,12 @@ namespace easy {
     
     String::StringStruct & String::StringStruct::operator=(const String::StringStruct &other) {
         if (this != &other) {
-            delete [] data_;
+            if(size_ < other.length_ ) {
+                delete [] data_;
+                size_ = other.length_ + 1;
+                data_ = new char[size_];
+            }
             length_ = other.length_;
-            data_ = new char[length_ + 1];
             memcpy(data_, other.data_, length_);
         }
         return *this;

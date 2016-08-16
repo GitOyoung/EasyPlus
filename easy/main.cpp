@@ -7,27 +7,22 @@
 //
 
 #include <iostream>
+#include <sys/time.h>
 
 #include "base.hpp"
 using namespace easy;
 
 int main(int argc, const char * argv[]) {
     
-//    Int a = 0xCC; //相当于Int a(Int(9));
-    String s("123 45 67 8 9");
+    struct timeval begin, end;
     
-    
-    String ss("abc d ef g h");
-    
-    ss = s + ss;
-    
-    std::cout<<ss<<std::endl;
-    ss.trim();
-    std::cout<<ss<<std::endl;
-    ss = ss - 8;
-    std::cout<<ss<<std::endl;
-    ss -=3;
-    ss += "hah";
-    std::cout<<ss<<std::endl;
+    gettimeofday(&begin, 0);
+    String as("1234567890");
+    String bs("9876543210");
+    String cs("abcdefghijk");
+    std::cout<<as + bs + cs + "ABCDEFG"<<std::endl;
+    gettimeofday(&end, 0);
+    std::cout<<"used: "<<end.tv_usec - begin.tv_usec<<std::endl;
+
     return 0;
 }

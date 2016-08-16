@@ -8,10 +8,55 @@
 
 #ifndef base_hpp
 #define base_hpp
+#include <functional>
 
 namespace easy {    
     namespace base {
+#define EASY_DEBUG 0
         
+#if EASY_DEBUG
+        class Debug {
+        public:
+            Debug();
+            ~Debug();
+        };
+        
+        class String : public Debug{
+#else
+            class String {
+#endif
+            public:
+                String(char *data, int length);
+                String(const char *str = 0);
+                String(const String &);
+                int length() const;
+                int &length();
+                bool startWith(const String &) const;
+                bool endWith(const String &) const;
+                String &operator=(const char *str);
+                String &operator=(const String &other);
+                
+                String subString(int index,  int length = -1);
+                String operator+(const String &other);
+                String& operator+=(const String &other);
+                String operator-(int);
+                String& operator-=(int);
+                operator const char *() const;
+                char &operator[](int);
+                
+                String& trim();
+                ~String();
+            public:
+
+                static String fromNumber(long long);
+                static String fromNumber(double, int pre = 2);
+            private:
+                class StringStruct;
+                StringStruct *priv_;
+                String(StringStruct *);
+                String(StringStruct &);
+            };
+            
         template<typename _Tp>
         class BaseType {
         public:
@@ -84,12 +129,18 @@ namespace easy {
         
         class Int: public BaseType<int> {
         public:
+            typedef std::function<bool(int)> callBack;
+            static Int fromChar(char);
+            static Int fromShort(short);
+            static Int fromString(const char *);
+            static Int fromString(const String&);
+        public:
             Int(int value = 0);
             Int(const Int&);
             Int & operator=(int );
             Int & operator=(const Int &);
             Int & operator=(Int &&);
-            
+            Int& repeat(callBack cb);
             template<typename U>
             Int(const BaseType<U> &other): BaseType<int>(other) {}
         };
@@ -125,44 +176,7 @@ namespace easy {
         class UInt64: public BaseType<unsigned long long> {
             
         };
-#define EASY_DEBUG 0
-        
-#if EASY_DEBUG
-        class Debug {
-        public:
-            Debug();
-            ~Debug();
-        };
-        
-        class String : public Debug{
-#else
-        class String {
-#endif
-        public:
-            String(const char *str = 0);
-            String(const String &);
-            int length() const;
-            int &length();
-            bool startWith(const String &) const;
-            bool endWith(const String &) const;
-            String &operator=(const char *str);
-            String &operator=(const String &other);
-            
-            String subString(int index,  int length = -1);
-            String operator+(const String &other);
-            String& operator+=(const String &other);
-            String operator-(int);
-            String& operator-=(int);
-            operator const char *() const;
-            
-            String& trim();
-            ~String();
-        private:
-            class StringStruct;
-            StringStruct *priv_;
-            String(StringStruct *);
-            String(StringStruct &);
-        };
+
             
             
     }
