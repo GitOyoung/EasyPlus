@@ -21,8 +21,8 @@ int main(int argc, const char * argv[]) {
     String result = name + ":" + password;
     
     std::cout<<"拼接结果:"<<result<<std::endl;
-    std::cout<<"子串(头10):"<<result.subString(0, 10)<<std::endl;
-    std::cout<<"子串(尾7):"<<result.subString(-7)<<std::endl;
+    std::cout<<"子串(头10):"<<result(0, 10)<<std::endl;
+    std::cout<<"子串(尾7):"<<result(-7)<<std::endl;
     std::cout<<"反转结果:"<<result.reverse()<<std::endl;
     std::cout<<"反转后原字符串:"<<result<<std::endl;
     result.reverseSelf();

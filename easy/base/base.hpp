@@ -36,6 +36,7 @@ namespace easy {
                 String &operator=(const char *str);
                 String &operator=(const String &other);
                 
+                String operator()(int index, int length = -1);
                 String subString(int index,  int length = -1);
                 String operator+(const String &other);
                 String& operator+=(const String &other);

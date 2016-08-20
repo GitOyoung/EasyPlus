@@ -188,6 +188,9 @@ namespace easy {
         return *this;
     }
     
+    String String::operator()(int index, int  length) {
+        return subString(index, length);
+    }
     String String::subString(int index, int length) {
         int len = this->length();
         index > len && (index = len);
