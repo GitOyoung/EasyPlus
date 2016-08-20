@@ -11,6 +11,10 @@
 
 #if EASY_DEBUG > 0u
 #include <iostream>
+
+#define dbg(x) std::cout<<(x)<<std::endl
+#else
+#define dbg(x)
 #endif
 
 
@@ -101,6 +105,7 @@ namespace easy {
         int length() const;
         int &length();
         StringStruct &trim();
+        StringStruct& reverse();
         bool startWith(const StringStruct &) const;
         bool endWith(const StringStruct &) const;
         operator const char *() const {
@@ -121,7 +126,7 @@ namespace easy {
         char *data_;
     };
 
-#if EASY_DEBUG > 0u
+#if EASY_DEBUG == 1
     base::Debug::Debug() {
         std::cout<<"构造次数+1"<<std::endl;
     }
@@ -172,8 +177,21 @@ namespace easy {
         return *(p + i);
     }
     
+    String String::reverse() const {
+        String str(*this);
+        str.reverseSelf();
+        return str;
+    }
+    
+    String& String::reverseSelf() {
+        priv_->reverse();
+        return *this;
+    }
     
     String String::subString(int index, int length) {
+        int len = this->length();
+        index > len && (index = len);
+        index < -len && (index = -len);
         const char *str =  (const char *)*priv_ + index;
         if(index < 0) str += this->length();
         if(length < 0) length = (int)strlen(str);
@@ -222,7 +240,7 @@ namespace easy {
         
         
         if(priv_ != 0){
-#if EASY_DEBUG > 0u
+#if EASY_DEBUG  == 1
             std::cout<<"String: "<<*this<<" 释放次数+1"<<std::endl;
 #endif
             delete priv_;
@@ -285,6 +303,15 @@ namespace easy {
             }
         }
         length_ = currentIndex;
+        return *this;
+    }
+    
+    String::StringStruct& String::StringStruct::reverse() {
+        size_t end = length_ >> 1;
+        size_t last = length_ - 1;
+        for (int i = 0; i < end; ++i) {
+            std::swap(data_[i], data_[last - i]);
+        }
         return *this;
     }
     

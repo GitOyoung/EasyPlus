@@ -14,7 +14,7 @@ namespace easy {
     namespace base {
 #define EASY_DEBUG 0
         
-#if EASY_DEBUG
+#if EASY_DEBUG == 1
         class Debug {
         public:
             Debug();
@@ -45,6 +45,8 @@ namespace easy {
                 char &operator[](int);
                 
                 String& trim();
+                String reverse() const;
+                String& reverseSelf();
                 ~String();
             public:
 
