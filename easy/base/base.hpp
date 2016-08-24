@@ -31,13 +31,14 @@ namespace easy {
                 String(const String &);
                 int length() const;
                 int &length();
+                int resize(size_t);
                 bool startWith(const String &) const;
                 bool endWith(const String &) const;
                 String &operator=(const char *str);
                 String &operator=(const String &other);
                 
                 String operator()(int index, int length = -1);
-                String subString(int index,  int length = -1);
+                String substring(int index,  int length = -1);
                 String operator+(const String &other);
                 String& operator+=(const String &other);
                 String operator-(int);
@@ -46,8 +47,20 @@ namespace easy {
                 char &operator[](int);
                 
                 String& trim();
-                String reverse() const;
-                String& reverseSelf();
+                String& reverse();
+                String& append(const String&);
+                String& insertAt(int index, char);
+                String& insertAt(int index, const char *);
+                String& insertAt(int index, const String&);
+                String& removeAt(int index, int length = 1);
+                
+                
+                String stringByTrim() const;
+                String stringAfterReverse() const;
+                String stringByAppend(const String &) const;
+                String stringByInsertAt(int index, char) const;
+                String stringByInsertAt(int index, const char *) const;
+                String stringByInsertAt(int index, const String&) const;
                 ~String();
             public:
 

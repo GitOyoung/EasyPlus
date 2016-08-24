@@ -20,6 +20,11 @@
 
 namespace easy {
     
+    namespace  util {
+        size_t suggestSize(size_t real) {
+            return real + 1;
+        }
+    }
     Int::Int(int value) : BaseType<int>(value) {}
     Int::Int(const Int& other): BaseType<int>(other) {}
     
@@ -106,6 +111,8 @@ namespace easy {
         int &length();
         StringStruct &trim();
         StringStruct& reverse();
+        int resize(size_t);  //重新分配空间，返回空间变化大小, 单位byte
+        StringStruct& insertAt(int index, const char *str, size_t length);
         bool startWith(const StringStruct &) const;
         bool endWith(const StringStruct &) const;
         operator const char *() const {
@@ -150,6 +157,10 @@ namespace easy {
         return priv_->length();
     }
     
+    int String::resize(size_t size) {
+        return priv_->resize(size);
+    }
+    
     bool String::startWith(const easy::base::String &str) const {
         return priv_->startWith(*str.priv_);
     }
@@ -177,21 +188,21 @@ namespace easy {
         return *(p + i);
     }
     
-    String String::reverse() const {
+    String String::stringAfterReverse() const {
         String str(*this);
-        str.reverseSelf();
+        str.reverse();
         return str;
     }
     
-    String& String::reverseSelf() {
+    String& String::reverse() {
         priv_->reverse();
         return *this;
     }
     
     String String::operator()(int index, int  length) {
-        return subString(index, length);
+        return substring(index, length);
     }
-    String String::subString(int index, int length) {
+    String String::substring(int index, int length) {
         int len = this->length();
         index > len && (index = len);
         index < -len && (index = -len);
@@ -199,6 +210,51 @@ namespace easy {
         if(index < 0) str += this->length();
         if(length < 0) length = (int)strlen(str);
         return String(new StringStruct(str, length));
+    }
+    
+    String& String::insertAt(int index, char c) {
+        (index < 0 || index > length()) ||
+        priv_->insertAt(index, &c, 1);
+        return *this;
+    }
+    
+    String& String::insertAt(int index, const char *str) {
+        (str == 0 || index < 0 || index > length()) ||
+        priv_->insertAt(index, str, strlen(str));
+        return *this;
+    }
+    
+    String& String::insertAt(int index, const easy::base::String &str) {
+        (index < 0 || index > length()) ||
+        priv_->insertAt(index, str, str.length());
+        return *this;
+    }
+    
+    String& String::removeAt(int index, int length) {
+        int left = this->length() - index;
+        length > left && (length =  left);
+        //TODO
+        return *this;
+    }
+    
+    String String::stringByTrim() const {
+        String cp(*this);
+        return cp.trim();
+    }
+    
+    String String::stringByInsertAt(int index, char c) const {
+        String cp(*this);
+        return cp.insertAt(index, c);
+    }
+    
+    String String::stringByInsertAt(int index, const char *str) const {
+        String cp(*this);
+        return cp.insertAt(index, str);
+    }
+    
+    String String::stringByInsertAt(int index, const easy::base::String &str) const {
+        String cp(*this);
+        return cp.insertAt(index, str);
     }
     
     String String::operator+(const easy::base::String &other) {
@@ -212,7 +268,7 @@ namespace easy {
     
     String String::operator-(int tail) {
         int length = this->length() - tail;
-        return length > 0 ? subString(0, length) : String();
+        return length > 0 ? substring(0, length) : String();
     }
     
     String& String::operator-=(int tail) {
@@ -253,7 +309,7 @@ namespace easy {
     }
     
     
-    String::StringStruct::StringStruct(const char *str, size_t length): length_(length), size_(length + 1) {
+    String::StringStruct::StringStruct(const char *str, size_t length): length_(length), size_(util::suggestSize(length)) {
         if(str != 0) {
             data_ = new char[size_];
         } else {
@@ -263,9 +319,9 @@ namespace easy {
         memcpy(data_, str, length_);
     }
     
-    String::StringStruct::StringStruct(char *str, int length): length_(length), size_(length + 1), data_(str) {}
+    String::StringStruct::StringStruct(char *str, int length): length_(length), size_(util::suggestSize(length_)), data_(str) {}
     
-    String::StringStruct::StringStruct(const StringStruct &other): length_(other.length_), size_(other.length_ + 1), data_(new char[length_ + 1]) {
+    String::StringStruct::StringStruct(const StringStruct &other): length_(other.length_), size_(other.size_), data_(new char[other.size_]) {
         memcpy(data_, other.data_, length_);
     }
     
@@ -315,6 +371,36 @@ namespace easy {
         for (int i = 0; i < end; ++i) {
             std::swap(data_[i], data_[last - i]);
         }
+        return *this;
+    }
+    
+    int String::StringStruct::resize(size_t size) {
+        int delta = int(size - size_);
+        char *data = 0;
+        if (delta > 0) {
+            data = new char[size];
+            memcpy(data, data_, length_);
+            delete [] data_;
+            data_ = data;
+            size_ = size;
+            return delta;
+        } else {
+            return  0;
+        }
+    }
+    
+    String::StringStruct& String::StringStruct::insertAt(int index, const char *str, size_t length) {
+        size_t total = length_ + length;
+        if(length == 0 || index < 0 || index > length_) return *this;
+        if (total > size_) {
+            resize(util::suggestSize(total));
+        }
+        size_t i = length_;
+        while (i-- > index) {
+            data_[i + length] = data_[i];
+        }
+        memcpy(data_ + index, str, length);
+        length_ = total;
         return *this;
     }
     
