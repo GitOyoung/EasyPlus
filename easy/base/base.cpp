@@ -78,7 +78,7 @@ namespace easy {
                 value = value * 10 + str[i] - '0';
                 return true;
             }
-                return false;
+            return false;
         });
         return Int(value);
     }
@@ -101,7 +101,7 @@ namespace easy {
     Char::Char(char c): BaseType<char>(c) {}
     Char::Char(const Char &other): BaseType<char>(other) {}
     
-
+    
     class String::StringStruct {
     public:
         StringStruct(const char *str = 0, size_t length = 0);
@@ -110,7 +110,6 @@ namespace easy {
         int length() const;
         int &length();
         StringStruct &trim();
-        StringStruct& reverse();
         int resize(size_t);  //重新分配空间，返回空间变化大小, 单位byte
         StringStruct& insertAt(int index, const char *str, size_t length);
         bool startWith(const StringStruct &) const;
@@ -132,7 +131,7 @@ namespace easy {
         size_t size_;
         char *data_;
     };
-
+    
 #if EASY_DEBUG == 1
     base::Debug::Debug() {
         std::cout<<"构造次数+1"<<std::endl;
@@ -188,16 +187,16 @@ namespace easy {
         return *(p + i);
     }
     
-    String String::stringAfterReverse() const {
-        String str(*this);
-        str.reverse();
-        return str;
+    String& String::append(const easy::base::String &other) {
+        return *this += other;
     }
     
-    String& String::reverse() {
-        priv_->reverse();
-        return *this;
+    String String::stringByAppend(const easy::base::String &other) const {
+        String cp(*this);
+        return cp += other;
     }
+    
+
     
     String String::operator()(int index, int  length) {
         return substring(index, length);
@@ -365,15 +364,6 @@ namespace easy {
         return *this;
     }
     
-    String::StringStruct& String::StringStruct::reverse() {
-        size_t end = length_ >> 1;
-        size_t last = length_ - 1;
-        for (int i = 0; i < end; ++i) {
-            std::swap(data_[i], data_[last - i]);
-        }
-        return *this;
-    }
-    
     int String::StringStruct::resize(size_t size) {
         int delta = int(size - size_);
         char *data = 0;
@@ -440,19 +430,19 @@ namespace easy {
         return *new StringStruct(data, (int)length);
     }
     
-     String::StringStruct& String::StringStruct::operator+=(const easy::base::String::StringStruct &other) {
-         size_t length = length_ + other.length_;
-         if(size_ < length + 1) {
-             size_ = length + 1;
-             char *str = new char[size_];
-             memcpy(str, data_, length_);
-             delete [] data_;
-             data_ = str;
-         }
-         memcpy(data_ + length_, other.data_, other.length_);
-         length_ = length;
-         return *this;
-     }
+    String::StringStruct& String::StringStruct::operator+=(const easy::base::String::StringStruct &other) {
+        size_t length = length_ + other.length_;
+        if(size_ < length + 1) {
+            size_ = length + 1;
+            char *str = new char[size_];
+            memcpy(str, data_, length_);
+            delete [] data_;
+            data_ = str;
+        }
+        memcpy(data_ + length_, other.data_, other.length_);
+        length_ = length;
+        return *this;
+    }
     
     
 }

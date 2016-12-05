@@ -25,7 +25,8 @@ int main(int argc, const char * argv[]) {
     log(result);
     log(result.stringByTrim());
     result.trim();
-    log(result.stringAfterReverse());
+    String cn = "你好啊abc";
+    log(cn.length());
     log(result.stringByInsertAt(9, "987654321"));
     log(result);
     gettimeofday(&end, 0);

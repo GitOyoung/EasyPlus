@@ -47,7 +47,6 @@ namespace easy {
                 char &operator[](int);
                 
                 String& trim();
-                String& reverse();
                 String& append(const String&);
                 String& insertAt(int index, char);
                 String& insertAt(int index, const char *);
@@ -56,7 +55,6 @@ namespace easy {
                 
                 
                 String stringByTrim() const;
-                String stringAfterReverse() const;
                 String stringByAppend(const String &) const;
                 String stringByInsertAt(int index, char) const;
                 String stringByInsertAt(int index, const char *) const;
