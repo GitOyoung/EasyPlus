@@ -56,8 +56,7 @@ namespace easy {
             Logger& error(const char *message);
             
         protected:
-            virtual void write(LogLevel level, const std::string& message);
-            virtual void flush();
+            virtual void write(std::time_t time, LogLevel level, const std::string& message);
         private:
             static  LogInfoQueue& logInfoQueue();
             static bool GetLogInfo(LogInfo &info);

@@ -51,14 +51,9 @@ namespace easy {
             return levels[level];
         }
         
-        void Logger::write(LogLevel level, const std::string &message) {
-            std::cout<<levelString(level)<<": "<< message<<"\n";
+        void Logger::write(std::time_t time, LogLevel level, const std::string &message) {
+            std::cout<<levelString(level)<<": "<<std::asctime(std::localtime(&time))<< message<<"\n";
         }
-        
-        void Logger::flush() {
-            
-        }
-        
         
         
         void Logger::Init() {
@@ -71,9 +66,7 @@ namespace easy {
             LogInfo info;
             while (true) {
                 if(Logger::GetLogInfo(info) && info.logger) {
-                    std::string time = std::asctime(std::localtime(&info.time));
-                    info.logger->write(info.level, time + " : " +info.message);
-                    info.logger->flush();
+                    info.logger->write(info.time, info.level, info.message);
                 }
             }
         }

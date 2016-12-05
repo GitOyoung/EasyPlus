@@ -12,7 +12,7 @@
 
 #include "base.hpp"
 
-#include "Logger.hpp"
+#include "FileLogger.hpp"
 using namespace easy;
 
 #define log(x) std::cout<<(x)<<std::endl
@@ -22,12 +22,12 @@ int main(int argc, const char * argv[]) {
     struct timeval begin, end;
     gettimeofday(&begin, 0);
 
-    easy::runtime::Logger logger;
+    easy::runtime::Logger *logger = new easy::runtime::FileLogger;
      easy::runtime::Logger::Init();
     for (int i = 0; i < 200; ++i) {
-        logger.debug("Hehe");
-        logger.info("Xixi");
-        logger.error("Haha");
+        logger->debug("Hehe");
+        logger->info("Xixi");
+        logger->error("Haha");
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
