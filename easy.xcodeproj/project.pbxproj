@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E30FF3E51DF4FB100039C16E /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E30FF3E31DF4FB100039C16E /* Logger.cpp */; };
 		E3B7AF451D5AF9D1001E9198 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AF441D5AF9D1001E9198 /* main.cpp */; };
 		E3B7AF4D1D5AFA51001E9198 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AF4B1D5AFA51001E9198 /* base.cpp */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E30FF3E11DF4FADC0039C16E /* abstractmediaplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = abstractmediaplayer.h; path = media/abstractmediaplayer.h; sourceTree = "<group>"; };
+		E30FF3E31DF4FB100039C16E /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Logger.cpp; path = runtime/Logger.cpp; sourceTree = "<group>"; };
+		E30FF3E41DF4FB100039C16E /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Logger.hpp; path = runtime/Logger.hpp; sourceTree = "<group>"; };
 		E3B7AF411D5AF9D0001E9198 /* easy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = easy; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B7AF441D5AF9D1001E9198 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = easy/main.cpp; sourceTree = "<group>"; };
 		E3B7AF4B1D5AFA51001E9198 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = base/base.cpp; sourceTree = "<group>"; };
@@ -41,6 +45,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E30FF3E01DF4FACE0039C16E /* media */ = {
+			isa = PBXGroup;
+			children = (
+				E30FF3E11DF4FADC0039C16E /* abstractmediaplayer.h */,
+			);
+			name = media;
+			sourceTree = "<group>";
+		};
+		E30FF3E21DF4FAE30039C16E /* runtime */ = {
+			isa = PBXGroup;
+			children = (
+				E30FF3E31DF4FB100039C16E /* Logger.cpp */,
+				E30FF3E41DF4FB100039C16E /* Logger.hpp */,
+			);
+			name = runtime;
+			sourceTree = "<group>";
+		};
 		E3B7AF381D5AF9D0001E9198 = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +82,8 @@
 		E3B7AF431D5AF9D0001E9198 /* easy */ = {
 			isa = PBXGroup;
 			children = (
+				E30FF3E21DF4FAE30039C16E /* runtime */,
+				E30FF3E01DF4FACE0039C16E /* media */,
 				E3B7AF4B1D5AFA51001E9198 /* base.cpp */,
 				E3B7AF4C1D5AFA51001E9198 /* base.hpp */,
 			);
@@ -124,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3B7AF4D1D5AFA51001E9198 /* base.cpp in Sources */,
+				E30FF3E51DF4FB100039C16E /* Logger.cpp in Sources */,
 				E3B7AF451D5AF9D1001E9198 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
