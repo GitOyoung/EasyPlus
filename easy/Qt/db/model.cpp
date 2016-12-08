@@ -6,6 +6,12 @@ Model::Model()
 
 }
 
+Model::Model(const Model &model)
+    : _records(model._records)
+{
+
+}
+
 
 QVariant Model::value(const QString &key) const
 {
@@ -16,6 +22,11 @@ Model& Model::value(const QString &key, const QVariant &value)
 {
     _records[key] = value;
     return *this;
+}
+
+QStringList Model::propertyList() const
+{
+    return _records.keys();
 }
 
 QString Model::toString() const

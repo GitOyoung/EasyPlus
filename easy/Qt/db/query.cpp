@@ -1,4 +1,5 @@
 #include "query.h"
+#include "model.h"
 #include <QDebug>
 Query::Query()
 {
@@ -66,11 +67,24 @@ QSqlQuery Connection::Create::query(QSqlDatabase &db) const
     return query;
 }
 
+Connection::Insert::Insert(const Model &model)
+{
+    _keys = model.propertyList();
+    for(const auto &key: _keys) {
+        _values.append(model.value(key));
+    }
+}
+
 
 Connection::Insert::Insert(const QString &tableName)
     : _tableName(tableName)
 {
 
+}
+
+void Connection::Insert::setTableName(const QString &tableName)
+{
+    _tableName = tableName;
 }
 
 void Connection::Insert::addColunm(const QString &key, const QVariant &value)

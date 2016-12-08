@@ -12,7 +12,7 @@ public:
     };
 
     enum Feature {
-        PrimaryKey = 0x00000001, NotNull = 0x00000002,    Unique = 0x00000004
+        None = 0, PrimaryKey = 0x00000001, NotNull = 0x00000002,    Unique = 0x00000004
     };
     typedef int  Features;
 
@@ -60,11 +60,13 @@ class Connection::Insert: public Query
 {
 public:
     Insert(const QString& tableName);
+    Insert(const Model& model);
+    void setTableName(const QString &tableName);
     void addColunm(const QString&key, const QVariant& value);
     virtual QSqlQuery query(QSqlDatabase &db) const;
 private:
     QString _tableName;
-    QList<QString> _keys;
+    QStringList _keys;
     QList<QVariant> _values;
 };
 

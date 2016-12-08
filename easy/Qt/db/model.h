@@ -11,9 +11,12 @@ class Model
 {
 public:
     Model();
+    Model(const Model& model);
 
     QVariant value(const QString &key) const;
     Model& value(const QString &key, const QVariant&value);
+
+    QStringList propertyList() const;
 
     QString toString() const;
 
