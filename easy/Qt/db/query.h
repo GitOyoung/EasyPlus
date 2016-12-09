@@ -66,12 +66,13 @@ private:
 class Connection::Insert: public Query
 {
 public:
-    Insert(const QString& tableName);
-    Insert(const Model& model);
+    Insert(const QString& tableName, bool orReplace = false);
+    Insert(const Model& model, bool orReplace = false);
     void setTableName(const QString &tableName);
     void addColunm(const QString&key, const QVariant& value);
     virtual QSqlQuery query(QSqlDatabase &db) const;
 private:
+    bool _orReplace;
     QString _tableName;
     QStringList _keys;
     QList<QVariant> _values;

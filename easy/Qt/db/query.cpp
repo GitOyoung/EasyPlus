@@ -79,17 +79,21 @@ QSqlQuery Connection::Create::query(QSqlDatabase &db) const
     return query;
 }
 
-Connection::Insert::Insert(const Model &model)
+Connection::Insert::Insert(const Model &model, bool orReplace)
+    : _orReplace(orReplace)
+    , _keys(model.propertyList())
 {
-    _keys = model.propertyList();
-    for(const auto &key: _keys) {
+
+    for(int i = 0, length = _keys.length(); i < length; ++i) {
+        QString key = _keys.at(i);
         _values.append(model.value(key));
     }
 }
 
 
-Connection::Insert::Insert(const QString &tableName)
-    : _tableName(tableName)
+Connection::Insert::Insert(const QString &tableName, bool orReplace)
+    : _orReplace(orReplace)
+    , _tableName(tableName)
 {
 
 }
@@ -108,7 +112,7 @@ void Connection::Insert::addColunm(const QString &key, const QVariant &value)
 QSqlQuery Connection::Insert::query(QSqlDatabase &db) const
 {
     QSqlQuery query(db);
-    QString prepare = QString("INSERT INTO %1 (%2) VALUES(%3)").arg(_tableName);
+    QString prepare = QString("INSERT %1 INTO %2 (%3) VALUES(%4)").arg(_orReplace? "OR REPLACE" : "").arg(_tableName);
     QString colunms;
     QString valuesPlacehoder;
     for(int i = 0, length = _keys.length(); i < length; ++i ) {

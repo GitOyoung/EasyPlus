@@ -30,7 +30,7 @@ Connection::Connection(const QString &database, const QString &connectionName)
 bool Connection::open()
 {
     if( _db.open()) return true;
-    qDebug()<<_db.lastError().text();
+    _lastError =  _db.lastError();
     return false;
 }
 
