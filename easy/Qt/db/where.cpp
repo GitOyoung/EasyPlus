@@ -1,6 +1,10 @@
 #include "where.h"
 #include <QDebug>
 
+namespace easy {
+namespace db {
+
+
 Where::Where()
     : _groupMode(false)
     , _valid(false)
@@ -132,4 +136,9 @@ QString Where::clause() const
 
         return QString("%1%2%3").arg(v0.name).arg(relationMap[v0.relation]).arg(QString(":%1").arg(v0.name));
     }
+}
+
+
+
+}
 }

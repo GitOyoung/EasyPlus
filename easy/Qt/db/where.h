@@ -3,6 +3,11 @@
 
 #include <QVariant>
 
+namespace easy {
+namespace db {
+
+
+
 class Where
 {
 public:
@@ -60,4 +65,7 @@ private:
 
 
 };
+
+}
+}
 #endif // WHERE_H

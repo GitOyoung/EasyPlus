@@ -8,6 +8,9 @@
 
 #include <QDebug>
 
+namespace easy {
+namespace db {
+
 
 Connection::Connection()
 {
@@ -107,3 +110,5 @@ int Connection::update(const Update &u)
 }
 
 
+}
+}

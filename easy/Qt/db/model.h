@@ -6,6 +6,9 @@
 #include <QMap>
 
 
+namespace easy {
+namespace db {
+
 
 class Model
 {
@@ -22,7 +25,9 @@ public:
 
 private:
     QMap<QString, QVariant> _records;
-
 };
+
+}
+}
 
 #endif // MODEL_H

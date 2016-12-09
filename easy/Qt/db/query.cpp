@@ -1,6 +1,10 @@
 #include "query.h"
 #include "model.h"
 #include <QDebug>
+
+namespace easy {
+namespace db {
+
 Query::Query()
 {
 
@@ -271,4 +275,6 @@ QString Connection::Update::placeholder(const QString &old)
 
 
 
+}
+}
 

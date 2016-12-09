@@ -5,6 +5,10 @@
 #include <QSqlQuery>
 #include <QVariant>
 
+namespace easy {
+namespace db {
+
+
 class Query
 {
 public:
@@ -114,5 +118,8 @@ private:
     Where _where;
     QMap<QString, QVariant> _content;
 };
+
+}
+}
 
 #endif // QUERY_H

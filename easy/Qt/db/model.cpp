@@ -1,6 +1,11 @@
 #include "model.h"
 #include <QString>
 
+
+namespace easy {
+namespace db {
+
+
 Model::Model()
 {
 
@@ -41,6 +46,7 @@ QString Model::toString() const
    return string;
 }
 
-
+}
+}
 
 

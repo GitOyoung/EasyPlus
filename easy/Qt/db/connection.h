@@ -4,6 +4,10 @@
 #include <QSqlDatabase>
 #include <QList>
 
+namespace easy {
+namespace db {
+
+
 class Model;
 
 class Connection
@@ -57,5 +61,8 @@ public:
 private:
     QSqlDatabase _db;
 };
+
+}
+}
 
 #endif // CONNECTION_H
