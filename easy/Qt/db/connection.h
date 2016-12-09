@@ -1,8 +1,9 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-#include <QSqlDatabase>
 #include <QList>
+#include <QSqlError>
+#include <QSqlDatabase>
 
 namespace easy {
 namespace db {
