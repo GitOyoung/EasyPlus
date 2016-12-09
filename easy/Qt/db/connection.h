@@ -38,9 +38,19 @@ public:
      * @return
      */
     bool create(const Create& c);
+    /**
+     * @brief insert
+     * @param i
+     * @return  返回新插入的id
+     */
     int insert(const Insert& i);
-    bool update(const Update& u);
-    QList<Model*> select(const Select & s);
+    /**
+     * @brief update
+     * @param u
+     * @return 成功则返回受影响的行数，否则返回-1
+     */
+    int update(const Update& u);
+    QList<Model> select(const Select & s);
     int del(const Delete& d);
 
     ~Connection();

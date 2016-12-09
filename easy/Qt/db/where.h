@@ -35,8 +35,10 @@ public:
     bool isValid() const;
 
     QString clause() const;
-    QStringList placeHolders() const;
-    QVariant value(const QString& placeHolder) const;
+    QStringList keys() const;
+    QVariant value(const QString& key) const;
+
+
 
     static const QString relationMap[9];
 public:

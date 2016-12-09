@@ -93,27 +93,24 @@ QString Where::placeholder(const QString &old)
     return QString(":%1").arg(old);
 }
 
-QStringList Where::placeHolders() const
+QStringList Where::keys() const
 {
     QStringList list;
     if(_groupMode) {
-        int length = v1.where.length();
-        for(int i = 0; i < length; ++i) {
-            list.append(v1.where.at(i).placeHolders());
+        for(int i = 0, length = v1.where.length(); i < length; ++i) {
+            list.append(v1.where.at(i).keys());
         }
     } else {
-        list.append(placeholder(v0.name));
+        list.append(v0.name);
     }
     return list;
 }
 
-QVariant Where::value(const QString &placeHolder) const
+QVariant Where::value(const QString &key) const
 {
-    QString key = placeHolder.mid(1);
-    qDebug()<<key;
     if(!_groupMode) return key == v0.name ? v0.value : QVariant();
     for(int i = 0, length = v1.where.length(); i < length; ++i) {
-        QVariant value = v1.where.at(i).value(placeHolder);
+        QVariant value = v1.where.at(i).value(key);
         if(!value.isNull())  return value;
     }
     return QVariant();
