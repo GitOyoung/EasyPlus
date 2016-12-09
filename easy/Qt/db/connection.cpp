@@ -56,9 +56,9 @@ bool Connection::create(const Create &c)
 {
     QSqlQuery query = c.query(_db);
     if(!query.exec()) {
-        qDebug()<<query.lastError().text();
+        _lastError =  query.lastError();
     }
-    qDebug()<<query.lastQuery();
+    _lastQuery = query.lastQuery();
     return true;
 }
 
@@ -66,10 +66,10 @@ int Connection::insert(const Insert &i)
 {
     QSqlQuery query = i.query(_db);
     if(!query.exec()) {
-        qDebug()<<query.lastError().text();
+        _lastError =  query.lastError();
         return 0;
     }
-    qDebug()<<query.lastQuery();
+    _lastQuery = query.lastQuery();
     return query.lastInsertId().toInt();
 }
 
@@ -79,7 +79,7 @@ QList<Model> Connection::select(const Select &s)
     QSqlQuery query = s.query(_db);
     QList<Model> list;
     if(!query.exec()) {
-        qDebug()<< query.lastError().text();
+        _lastError =  query.lastError();
         return list;
     }
 
@@ -93,7 +93,7 @@ QList<Model> Connection::select(const Select &s)
         }
         list.append(model);
     }
-    qDebug()<<query.lastQuery();
+    _lastQuery =  query.lastQuery();
 
     return list;
 }
@@ -102,11 +102,21 @@ int Connection::update(const Update &u)
 {
     QSqlQuery query = u.query(_db);
     if(!query.exec()) {
-        qDebug()<<query.lastError().text();
+        _lastError =  query.lastError();
         return -1;
     }
-    qDebug()<<query.lastQuery();
+    _lastQuery = query.lastQuery();
     return query.numRowsAffected();
+}
+
+QString Connection::lastQuery() const
+{
+    return _lastQuery;
+}
+
+QString Connection::lastErrorText() const
+{
+    return _lastError.text();
 }
 
 

@@ -57,9 +57,14 @@ public:
     QList<Model> select(const Select & s);
     int del(const Delete& d);
 
+    QString lastQuery() const;
+    QString lastErrorText() const;
+
     ~Connection();
 private:
     QSqlDatabase _db;
+    QString _lastQuery;
+    QSqlError _lastError;
 };
 
 }
