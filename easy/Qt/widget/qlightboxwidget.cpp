@@ -7,29 +7,29 @@
 #include <QPainter>
 
 QLightBoxWidget::QLightBoxWidget(QWidget* _parent, bool _folowToHeadWidget) :
-	QWidget(_parent),
+	QWidget(parent),
 	m_isInUpdateSelf(false)
 {
 	//
 	// Родительский виджет должен быть обязательно установлен
 	//
-	Q_ASSERT_X(_parent, "", Q_FUNC_INFO);
+	Q_ASSERT_X(parent, "", Q_FUNC_INFO);
 
 	//
 	// Если необходимо, делаем родителем самый "старший" виджет
 	//
 	if (_folowToHeadWidget) {
-		while (_parent->parentWidget() != 0) {
-			_parent = _parent->parentWidget();
+		while (parent->parentWidget() != 0) {
+			parent = parent->parentWidget();
 		}
-		setParent(_parent);
+		setParent(parent);
 	}
 
 	//
 	// Следим за событиями родительского виджета, чтобы
 	// иметь возможность перерисовать его, когда изменяется размер и т.п.
 	//
-	_parent->installEventFilter(this);
+	parent->installEventFilter(this);
 
 	//
 	// Скрываем виджет
@@ -37,14 +37,14 @@ QLightBoxWidget::QLightBoxWidget(QWidget* _parent, bool _folowToHeadWidget) :
 	setVisible(false);
 }
 
-bool QLightBoxWidget::eventFilter(QObject* _object, QEvent* _event)
+bool QLightBoxWidget::eventFilter(QObject* object, QEvent* event)
 {
 	//
 	// Виджету необходимо всегда быть последним ребёнком,
 	// чтобы перекрывать остальные виджеты при отображении
 	//
-	if (_event->type() == QEvent::ChildAdded) {
-		QChildEvent* childEvent = dynamic_cast<QChildEvent*>(_event);
+	if (event->type() == QEvent::ChildAdded) {
+		QChildEvent* childEvent = dynamic_cast<QChildEvent*>(event);
 		if (childEvent->child() != this) {
 			QWidget* parent = parentWidget();
 			setParent(0);
@@ -57,49 +57,42 @@ bool QLightBoxWidget::eventFilter(QObject* _object, QEvent* _event)
 	// перерисовать себя
 	//
 	if (isVisible()
-		&& _event->type() == QEvent::Resize) {
+		&& event->type() == QEvent::Resize) {
 		updateSelf();
 	}
-	return QWidget::eventFilter(_object, _event);
+	return QWidget::eventFilter(object, event);
 }
 
-void QLightBoxWidget::paintEvent(QPaintEvent* _event)
+void QLightBoxWidget::paintEvent(QPaintEvent* event)
 {
 	//
 	// Рисуем фон
 	//
-	QPainter p;
-	p.begin(this);
+	QPainter painter(this);
 	// ... фото родительского виджета
-	p.drawPixmap(0, 0, width(), height(), m_parentWidgetPixmap);
+	painter.drawPixmap(0, 0, width(), height(), m_parentWidgetPixmap);
 	// ... накладываем затемнённую область
-	p.setBrush(QBrush(QColor(0, 0, 0, 220)));
-	p.drawRect(0, 0, width(), height());
-	p.end();
+	painter.setBrush(QBrush(QColor(0, 0, 0, 220)));
+	painter.drawRect(0, 0, width(), height());
 
 	//
 	// Рисуем всё остальное
 	//
-	QWidget::paintEvent(_event);
+	QWidget::paintEvent(event);
 }
 
-void QLightBoxWidget::showEvent(QShowEvent* _event)
+void QLightBoxWidget::showEvent(QShowEvent* event)
 {
-	//
-	// Обновим себя
-	//
+
 	updateSelf();
 
-	//
-	// Показываемся
-	//
-	QWidget::showEvent(_event);
+	QWidget::showEvent(event);
 }
 
 void QLightBoxWidget::updateSelf()
 {
-	if (!m_isInUpdateSelf) {
-		m_isInUpdateSelf = true;
+	if (!_inUpdateSelf) {
+		_inUpdateSelf = true;
 
 		{
 			//
@@ -107,11 +100,11 @@ void QLightBoxWidget::updateSelf()
 			//
 			hide();
 			resize(parentWidget()->size());
-			m_parentWidgetPixmap = grabParentWidgetPixmap();
+			_parentWidgetPixmap = grabParentWidgetPixmap();
 			show();
 		}
 
-		m_isInUpdateSelf = false;
+		_inUpdateSelf = false;
 	}
 }
 

@@ -12,23 +12,23 @@ class QLightBoxWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit QLightBoxWidget(QWidget* _parent, bool _folowToHeadWidget = false);
+	explicit QLightBoxWidget(QWidget* parent, bool folowToHeadWidget = false);
 
 protected:
 	/**
 	 * @brief Переопределяется для отслеживания собитий родительского виджета
 	 */
-	bool eventFilter(QObject* _object, QEvent* _event);
+	bool eventFilter(QObject* object, QEvent* event);
 
 	/**
 	 * @brief Переопределяется для того, чтобы эмитировать эффект перекрытия
 	 */
-	void paintEvent(QPaintEvent* _event);
+	void paintEvent(QPaintEvent* event);
 
 	/**
 	 * @brief Переопределяется для того, чтобы перед отображением настроить внешний вид
 	 */
-	void showEvent(QShowEvent* _event);
+	void showEvent(QShowEvent* event);
 
 private:
 	/**
@@ -39,7 +39,7 @@ private:
 	/**
 	 * @brief Разрешает конфликт рекурсивного обновления
 	 */
-	bool m_isInUpdateSelf;
+	bool _inUpdateSelf;
 
 	/**
 	 * @brief Обновить картинку фона
@@ -49,7 +49,7 @@ private:
 	/**
 	 * @brief Картинка фона
 	 */
-	QPixmap m_parentWidgetPixmap;
+	QPixmap _parentWidgetPixmap;
 };
 
 #endif // QLIGHTBOXWIDGET_H

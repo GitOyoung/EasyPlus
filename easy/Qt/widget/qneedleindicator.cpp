@@ -243,14 +243,16 @@ void QNeedleIndicator::drawBackground(void) {
     painter.drawPoint(0,0);
 
     int line = 10; /* FIX #1 */
+    int tmp = minorTicks*(majorTicks-1)+majorTicks;
 
     /* Draw scale majorTicks using coords rotation */
     painter.save();
     painter.setBrush(Qt::black);
     painter.rotate(start_angle);                /* initial angle (first tick) */
     painter.setBrush(QBrush(Qt::black));
-    qreal t_rot = stop_angle/(minorTicks*(majorTicks-1)+majorTicks-1);
-    for(int i = 0; i < (minorTicks)*(majorTicks-1)+majorTicks; i++) {
+
+    qreal t_rot = stop_angle/(tmp -1);
+    for(int i = 0; i < tmp; i++) {
         if( minorTicks ) {
             if( i%(int)(minorTicks+1) == 0 )
                 painter.drawLine(QPoint(105,0), QPoint(105-line, 0));
